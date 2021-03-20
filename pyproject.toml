@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "pr_custom_component"
+version = "0.0.0"
+description = "A home assistant integration to install a HA pull request as a custom component."
+authors = ["Alan D. Tse <alandtse@gmail.com>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+aiofiles = "^0.6.0"
+yarl = "^1.6.3"
+voluptuous = "^0.12.1"
+aiohttp = "^3.7.4"
+async-timeout = "^3.0.1"
+
+[tool.poetry.dev-dependencies]
+homeassistant = "^2021.3.4"
+pytest-homeassistant-custom-component = "0.1.0"
+bandit = "^1.7.0"
+black = {version = "^20.8b1", allow-prereleases = true}
+mypy = "^0.812"
+pre-commit = "^2.11.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.semantic_release]
+version_variable='pyproject.toml:version,custom_components/pr_custom_component/const.py:VERSION'
+version_pattern='custom_components/pr_custom_component/manifest.json:"version": "{version}"'
+upload_to_pypi=false
+upload_to_release=true
+changelog_sections="feature,fix,breaking,documentation,performance,refactor"
+build_command = "echo"
+branch = "main"
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | deps
+                     # the root of the project
+)
+'''

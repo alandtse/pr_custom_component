@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PR Custom Component",
+        "description": "Please enter pending Pull Request link. After installation, you must restart Home Assistant to see the custom component.\n>**Warning: This will overwrite the existing custom component in your `/config/custom_components` directory.**",
+        "data": {
+          "pr_url": "Link to Home Assistant Pull Request"
+        }
+      }
+    },
+    "error": {
+      "bad_pr": "Unable to process Pull Request Link.",
+      "rate_limited": "Rate-limited by GitHub, please try again later."
+    },
+    "abort": {
+      "single_instance_allowed": "Only a single instance is allowed."
+    }
+  },
+  "options": {
+    "step": {
+      "user": {
+        "data": {
+          "binary_sensor": "Binary sensor enabled",
+          "sensor": "Sensor enabled",
+          "switch": "Switch enabled"
+        }
+      }
+    }
+  }
+}
