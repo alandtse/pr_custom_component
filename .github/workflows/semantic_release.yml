@@ -53,25 +53,25 @@ jobs:
         with:
           github_token: ${{ secrets.GH_TOKEN }}
       # Pack the alexa_media_player dir as a zip and upload to the release
-      # - name: Zip alexa_media dir
-      #   run: |
-      #     cd /home/runner/work/alexa_media_player/alexa_media_player/custom_components/alexa_media
-      #     zip alexa_media.zip -r ./
-      # - name: Set release variable
-      #   run: |
-      #     echo "release_version=`git describe --abbrev=0`" >> $GITHUB_ENV
-      # - name: Sleep
-      #   # add delay so upload does not kill the release notes from semantic-release
-      #   run: |
-      #     sleep 5
-      # - name: Upload zip to release
-      #   uses: svenstaro/upload-release-action@v1-release
-      #   with:
-      #     repo_token: ${{ secrets.GH_TOKEN }}
-      #     file: /home/runner/work/alexa_media_player/alexa_media_player/custom_components/alexa_media/alexa_media.zip
-      #     asset_name: alexa_media.zip
-      #     tag: ${{ env.release_version }}
-      #     overwrite: true
+      - name: Zip pr_custom_component dir
+        run: |
+          cd /home/runner/work/pr_custom_component/custom_components/pr_custom_component
+          zip pr_custom_component.zip -r ./
+      - name: Set release variable
+        run: |
+          echo "release_version=`git describe --abbrev=0`" >> $GITHUB_ENV
+      - name: Sleep
+        # add delay so upload does not kill the release notes from semantic-release
+        run: |
+          sleep 5
+      - name: Upload zip to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GH_TOKEN }}
+          file: /home/runner/work/pr_custom_component/custom_components/pr_custom_component/pr_custom_component.zip
+          asset_name: pr_custom_component.zip
+          tag: ${{ env.release_version }}
+          overwrite: true
       # - name: Push changes to dev
       #   uses: ad-m/github-push-action@master
       #   with:

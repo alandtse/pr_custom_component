@@ -29,10 +29,11 @@ build-backend = "poetry.core.masonry.api"
 version_variable='pyproject.toml:version,custom_components/pr_custom_component/const.py:VERSION'
 version_pattern='custom_components/pr_custom_component/manifest.json:"version": "{version}"'
 upload_to_pypi=false
-upload_to_release=true
+upload_to_release=false
 changelog_sections="feature,fix,breaking,documentation,performance,refactor"
 build_command = "echo"
 branch = "main"
+commit_subject="[skip ci] {version}"
 
 [tool.black]
 line-length = 88
