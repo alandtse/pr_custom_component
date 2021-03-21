@@ -30,7 +30,7 @@ async def test_switch_services(hass):
         await hass.services.async_call(
             SWITCH,
             SERVICE_TURN_OFF,
-            service_data={ATTR_ENTITY_ID: f"Custom Tesla auto update"},
+            service_data={ATTR_ENTITY_ID: "Custom Tesla auto update"},
             blocking=True,
         )
         assert title_func.called
