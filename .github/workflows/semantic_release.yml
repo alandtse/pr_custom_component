@@ -72,8 +72,8 @@ jobs:
           asset_name: pr_custom_component.zip
           tag: ${{ env.release_version }}
           overwrite: true
-      # - name: Push changes to dev
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: dev
+      - name: Push changes to dev
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: dev
