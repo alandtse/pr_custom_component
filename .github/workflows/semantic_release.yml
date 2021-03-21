@@ -55,7 +55,7 @@ jobs:
       # Pack the alexa_media_player dir as a zip and upload to the release
       - name: Zip pr_custom_component dir
         run: |
-          cd /home/runner/work/pr_custom_component/custom_components/pr_custom_component
+          cd /home/runner/work/pr_custom_component/pr_custom_component/custom_components/pr_custom_component
           zip pr_custom_component.zip -r ./
       - name: Set release variable
         run: |
@@ -68,7 +68,7 @@ jobs:
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GH_TOKEN }}
-          file: /home/runner/work/pr_custom_component/custom_components/pr_custom_component/pr_custom_component.zip
+          file: /home/runner/work/pr_custom_component/pr_custom_component/custom_components/pr_custom_component/pr_custom_component.zip
           asset_name: pr_custom_component.zip
           tag: ${{ env.release_version }}
           overwrite: true
