@@ -20,6 +20,8 @@ bandit = "^1.7.0"
 black = {version = "^20.8b1", allow-prereleases = true}
 mypy = "^0.812"
 pre-commit = "^2.11.1"
+flake8 = "^3.9.0"
+pydocstyle = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
