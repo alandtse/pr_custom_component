@@ -1,5 +1,8 @@
 [![GitHub Release][releases-shield]][releases]
+![GitHub all releases][download-all]
+![GitHub release (latest by SemVer)][download-latest]
 [![GitHub Activity][commits-shield]][commits]
+
 [![License][license-shield]][license]
 
 [![hacs][hacsbadge]][hacs]
@@ -79,3 +82,5 @@ _Component built with [integration_blueprint][integration_blueprint]._
 [releases-shield]: https://img.shields.io/github/release/alandtse/pr_custom_component.svg?style=for-the-badge
 [releases]: https://github.com/alandtse/pr_custom_component/releases
 [user_profile]: https://github.com/alandtse
+[download-all]: https://img.shields.io/github/downloads/alandtse/pr_custom_component/total?style=for-the-badge
+[download-latest]: https://img.shields.io/github/downloads/alandtse/pr_custom_component/latest/total?style=for-the-badge

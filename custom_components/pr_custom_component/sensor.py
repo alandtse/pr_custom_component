@@ -8,7 +8,7 @@ Sensor Platform
 For more details about this integration, please refer to
 https://github.com/alandtse/pr_custom_component
 """
-from .const import DEFAULT_NAME, DOMAIN, ICON, SENSOR, SENSOR_DEVICE_CLASS
+from .const import DOMAIN, ICON, SENSOR_DEVICE_CLASS
 from .entity import PRCustomComponentApiClientEntity
 
 

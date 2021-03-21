@@ -10,7 +10,7 @@ https://github.com/alandtse/pr_custom_component
 """
 from homeassistant.components.binary_sensor import BinarySensorEntity
 
-from .const import BINARY_SENSOR, BINARY_SENSOR_DEVICE_CLASS, DEFAULT_NAME, DOMAIN, ICON
+from .const import BINARY_SENSOR_DEVICE_CLASS, DOMAIN
 from .entity import PRCustomComponentApiClientEntity
 
 

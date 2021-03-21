@@ -25,7 +25,9 @@ from .exceptions import RateLimitException
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-class PRCustomComponentFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
+class PRCustomComponentFlowHandler(  # type: ignore
+    config_entries.ConfigFlow, domain=DOMAIN
+):
     """Config flow for PRCustomComponent."""
 
     VERSION = 1
