@@ -1,8 +1,11 @@
 # PR Custom Component
 
 [![GitHub Release][releases-shield]][releases]
+![GitHub all releases][download-all]
+![GitHub release (latest by SemVer)][download-latest]
 [![GitHub Activity][commits-shield]][commits]
-[![License][license-shield]](LICENSE)
+
+[![License][license-shield]][license]
 
 [![hacs][hacsbadge]][hacs]
 ![Project Maintenance][maintenance-shield]
@@ -95,7 +98,10 @@ The [logo](images/pr_custom_component.svg) is a combination of the [Home Assista
 [discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
 [forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
 [forum]: https://community.home-assistant.io/
+[license]: LICENSE
 [license-shield]: https://img.shields.io/github/license/alandtse/pr_custom_component.svg?style=for-the-badge
 [maintenance-shield]: https://img.shields.io/badge/maintainer-Alan%20Tse%20%40alandtse-blue.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/alandtse/pr_custom_component.svg?style=for-the-badge
 [releases]: https://github.com/alandtse/pr_custom_component/releases
+[download-all]: https://img.shields.io/github/downloads/alandtse/pr_custom_component/total?style=for-the-badge
+[download-latest]: https://img.shields.io/github/downloads/alandtse/pr_custom_component/latest/total?style=for-the-badge
