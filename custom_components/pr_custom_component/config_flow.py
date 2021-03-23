@@ -8,14 +8,14 @@ Config Flow Platform
 For more details about this integration, please refer to
 https://github.com/alandtse/pr_custom_component
 """
-from typing import Dict, Text
+import logging
+from typing import Dict, Typing
 
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import voluptuous as vol
 import yarl
-import logging
 
 from . import get_hacs_token
 from .api import PRCustomComponentApiClient
@@ -25,9 +25,7 @@ from .exceptions import RateLimitException
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-class PRCustomComponentFlowHandler(  # type: ignore
-    config_entries.ConfigFlow, domain=DOMAIN
-):
+class PRCustomComponentFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):  # type: ignore
     """Config flow for PRCustomComponent."""
 
     VERSION = 1
@@ -57,8 +55,7 @@ class PRCustomComponentFlowHandler(  # type: ignore
                 return self.async_create_entry(
                     title=result.get("name"), data=user_input
                 )
-            else:
-                self._errors["base"] = "bad_pr"
+            self._errors["base"] = "bad_pr"
 
             return await self._show_config_form(user_input)
 
@@ -67,6 +64,7 @@ class PRCustomComponentFlowHandler(  # type: ignore
     @staticmethod
     @callback
     def async_get_options_flow(config_entry):
+        """Get the options flow."""
         return PRCustomComponentOptionsFlowHandler(config_entry)
 
     async def _show_config_form(self, user_input):  # pylint: disable=unused-argument
@@ -77,22 +75,19 @@ class PRCustomComponentFlowHandler(  # type: ignore
             errors=self._errors,
         )
 
-    async def install_integration(self, pr_url: Text) -> Dict:
+    async def install_integration(self, pr_url: str) -> Dict:
         """Return true if integration is successfully installed."""
-        try:
-            session = async_get_clientsession(self.hass)
-            client = PRCustomComponentApiClient(
-                session, yarl.URL(pr_url), self.hass.config.path()
-            )
-            client.set_token(get_hacs_token(self.hass))
-            await client.async_update_data(download=True)
+        session = async_get_clientsession(self.hass)
+        client = PRCustomComponentApiClient(
+            session, yarl.URL(pr_url), self.hass.config.path()
+        )
+        client.set_token(get_hacs_token(self.hass))
+        if await client.async_update_data(download=True):
             return {
                 "name": client.name,
                 "update_time": client.updated_at,
                 "pull_number": client.pull_number,
             }
-        except Exception:  # pylint: disable=broad-except
-            raise
         return {}
 
 

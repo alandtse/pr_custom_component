@@ -26,7 +26,7 @@ Create a custom component from a Home Assistant Integration Pull Request. Use th
 
 ## Installation
 
-0. Use HACS after adding this `https://github.com/alandtse/pr_custom_component` as a custom repository. Skip to 6.
+0. Use HACS after adding this `https://github.com/alandtse/pr_custom_component` as a custom repository. Skip to 7.
 1. If no HACS, use the tool of choice to open the directory (folder) for your HA configuration (where you find `configuration.yaml`).
 2. If you do not have a `custom_components` directory (folder) there, you need to create it.
 3. In the `custom_components` directory (folder) create a new folder called `pr_custom_component`.

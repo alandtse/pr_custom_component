@@ -15,7 +15,7 @@ import logging
 import os
 import shutil
 import socket
-from typing import Dict, Text, Union, List
+from typing import Dict, List, Union
 
 import aiofiles
 import aiohttp
@@ -43,35 +43,38 @@ HEADERS = {"Content-type": "application/json; charset=UTF-8"}
 
 
 class PRCustomComponentApiClient:
+    """Api Client."""
+
     def __init__(
         self,
         session: aiohttp.ClientSession,
         pull_url: yarl.URL,
-        config_path: Text = "/config",
+        config_path: str = "/config",
     ) -> None:
         """Initialize API client.
 
         Args:
             session (aiohttp.ClientSession): Websession to use
-            pull_url (yarl.URL): URL of pull request, e.g., https://github.com/home-assistant/core/pull/46558
-            config_path (Text): base path for config, e.g., /config
+            pull_url (yarl.URL): URL of pull request, e.g.,
+                https://github.com/home-assistant/core/pull/46558
+            config_path (str): base path for config, e.g., /config
 
         """
         self._pull_url: yarl.URL = pull_url
         self._session: aiohttp.ClientSession = session
-        self._config_path: Text = config_path
-        self._manifest: Dict[Text, Union[Text, List[Text]]] = {}
-        self._component_name: Text = ""
-        self._updated_at: Text = ""
-        self._base_path: Text = ""
-        self._update_available: Text = ""
-        self._token: Text = ""
-        self._headers: Dict[Text, Text] = {}
+        self._config_path: str = config_path
+        self._manifest: Dict[str, Union[str, List[str]]] = {}
+        self._component_name: str = ""
+        self._updated_at: str = ""
+        self._base_path: str = ""
+        self._update_available: str = ""
+        self._token: str = ""
+        self._headers: Dict[str, str] = {}
         self._auto_update: bool = False
         self._pull_number: int = 0
 
     @property
-    def name(self) -> Text:
+    def name(self) -> str:
         """Return the component name."""
         return self._component_name
 
@@ -81,17 +84,17 @@ class PRCustomComponentApiClient:
         return self._pull_number
 
     @property
-    def updated_at(self) -> Text:
+    def updated_at(self) -> str:
         """Return the last updated time."""
         return self._updated_at
 
     @updated_at.setter
-    def updated_at(self, value: Text) -> None:
+    def updated_at(self, value: str) -> None:
         """Set the last updated time."""
         self._updated_at = value
 
     @property
-    def update_available(self) -> Text:
+    def update_available(self) -> str:
         """Return the whether an update is available."""
         return self._update_available
 
@@ -100,11 +103,11 @@ class PRCustomComponentApiClient:
         """Return the whether an to autoupdate when available."""
         return self._auto_update
 
-    def set_token(self, token: Text = "") -> None:
+    def set_token(self, token: str = "") -> None:
         """Set auth token for GitHub to avoid rate limits.
 
         Args:
-            token (Text, optional): Authentication token from GitHub. Defaults to "".
+            token (str, optional): Authentication token from GitHub. Defaults to "".
         """
         if token:
             self._token = token
@@ -116,20 +119,21 @@ class PRCustomComponentApiClient:
         if not pull_json or pull_json.get("message") == "Not Found":
             _LOGGER.debug("No pull data found")
             return {}
-        component_name: Text = ""
+        component_name: str = ""
         for label in pull_json["labels"]:
             if label["name"].startswith("integration: "):
                 component_name = label["name"].replace("integration: ", "")
                 break
         if not component_name:
             _LOGGER.error("Unable to find integration in pull request")
+            return {}
         else:
             _LOGGER.debug("Found %s integration", component_name)
-        branch: Text = pull_json["head"]["ref"]
+        branch: str = pull_json["head"]["ref"]
         pull_number: int = pull_json["number"]
-        user: Text = pull_json["head"]["user"]["login"]
-        path: Text = f"{COMPONENT_PATH}{component_name}"
-        contents_url: Text = pull_json["head"]["repo"]["contents_url"]
+        user: str = pull_json["head"]["user"]["login"]
+        path: str = f"{COMPONENT_PATH}{component_name}"
+        contents_url: str = pull_json["head"]["repo"]["contents_url"]
         url: yarl.URL = yarl.URL(contents_url.replace("{+path}", path)).with_query(
             {"ref": branch}
         )
@@ -144,7 +148,7 @@ class PRCustomComponentApiClient:
             "version": self._updated_at.replace("-", "."),
         }
         self._component_name = component_name
-        component_path: Text = os.path.join(
+        component_path: str = os.path.join(
             self._config_path, CUSTOM_COMPONENT_PATH, self._component_name
         )
         if not os.path.isdir(component_path):
@@ -174,12 +178,12 @@ class PRCustomComponentApiClient:
         ).with_host(PATCH_DOMAIN)
         return await self.api_wrapper("get", url)
 
-    async def async_download(self, url: Text, path: Text) -> bool:
+    async def async_download(self, url: str, path: str) -> bool:
         """Download and save files to path.
 
         Args:
             url (yarl.URL): Remote path to download
-            path (Text): Local path to save to
+            path (str): Local path to save to
 
         Returns:
             bool: Whether saved successful
@@ -193,26 +197,6 @@ class PRCustomComponentApiClient:
             isinstance(result, dict) and result.get("message") == "Not Found"
         ):
             return False
-        # [
-        # {
-        #     "name": "__init__.py",
-        #     "path": "homeassistant/components/tesla/__init__.py",
-        #     "sha": "9e6db33d24ab50c1af1e1e2818580cc96069e076",
-        #     "size": 9220,
-        #     "url": "https://api.github.com/repos/alandtse/home-assistant/contents/homeassistant/components/tesla/__init__.py?ref=tesla_oauth_callback",
-        #     "html_url": "https://github.com/alandtse/home-assistant/blob/tesla_oauth_callback/homeassistant/components/tesla/__init__.py",
-        #     "git_url": "https://api.github.com/repos/alandtse/home-assistant/git/blobs/9e6db33d24ab50c1af1e1e2818580cc96069e076",
-        #     "download_url": "https://raw.githubusercontent.com/alandtse/home-assistant/tesla_oauth_callback/homeassistant/components/tesla/__init__.py",
-        #     "type": "file",
-        #     "content": "IiIiU3V<SNIP>\n",
-        #     "encoding": "base64",
-        #     "_links": {
-        #         "self": "https://api.github.com/repos/alandtse/home-assistant/contents/homeassistant/components/tesla/__init__.py?ref=tesla_oauth_callback",
-        #         "git": "https://api.github.com/repos/alandtse/home-assistant/git/blobs/9e6db33d24ab50c1af1e1e2818580cc96069e076",
-        #         "html": "https://github.com/alandtse/home-assistant/blob/tesla_oauth_callback/homeassistant/components/tesla/__init__.py"
-        #     }
-        # }
-        # ]
         if not result:
             _LOGGER.debug("%s is empty", url)
             return True
@@ -226,7 +210,7 @@ class PRCustomComponentApiClient:
             _LOGGER.debug("Processing directory")
             tasks = []
             for file_json in result:
-                file_path: Text = os.path.join(path, file_json["name"])
+                file_path: str = os.path.join(path, file_json["name"])
                 if file_json["type"] == "dir" and not os.path.isdir(file_path):
                     _LOGGER.debug("Creating new sub directory %s", file_path)
                     os.mkdir(file_path)
@@ -235,15 +219,9 @@ class PRCustomComponentApiClient:
             return True
         if isinstance(result, dict):
             path.split(os.sep)
-            file_name: Text = result["name"]
+            file_name: str = result["name"]
             file_path = result["path"].replace(self._base_path, "")
-            full_path: Text = os.path.join(path, file_path.lstrip(os.sep))
-            # if len(file_path.split(os.sep)) > 1:
-            #     directory = file_path.split(os.sep)[0]
-            #     directory_path = os.path.join(path, directory.lstrip(os.sep))
-            #     if not os.path.isdir(directory_path):
-            #         _LOGGER.debug("Creating new directory %s", directory_path)
-            #         os.mkdir(directory_path)
+            full_path: str = os.path.join(path, file_path.lstrip(os.sep))
             contents = base64.b64decode(result["content"].encode("utf-8"))
             _LOGGER.debug("Saving %s size: %s KB", full_path, result["size"] / 1000)
             if file_name == "manifest.json":
@@ -267,11 +245,13 @@ class PRCustomComponentApiClient:
         self,
         method: str,
         url: Union[str, yarl.URL],
-        data: dict = {},
-        headers: dict = {},
+        data: dict = None,
+        headers: dict = None,
     ) -> dict:
         """Get information from the API."""
+        headers = headers or {}
         headers = self._headers if not headers else headers
+        data = data or {}
         try:
             async with async_timeout.timeout(TIMEOUT, loop=asyncio.get_event_loop()):
                 if method == "get":
@@ -288,17 +268,17 @@ class PRCustomComponentApiClient:
                         _LOGGER.error("Rate limited: %s", response_json["message"])
                         raise RateLimitException("Rate limited")
                     return response_json
-                elif method == "put":
+                if method == "put":
                     return await (
                         await self._session.put(url, headers=headers, json=data)
                     ).json()
 
-                elif method == "patch":
+                if method == "patch":
                     return await (
                         await self._session.patch(url, headers=headers, json=data)
                     ).json()
 
-                elif method == "post":
+                if method == "post":
                     return await (
                         await self._session.post(url, headers=headers, json=data)
                     ).json()
@@ -331,14 +311,19 @@ class PRCustomComponentApiClient:
         """Delete files from config path.
 
         Args:
-            path (Text): Delete component files.
+            path (str): Delete component files.
 
         Returns:
             bool: Whether delete is successful.
         """
-        component_path: Text = os.path.join(
+        component_path: str = os.path.join(
             self._config_path, CUSTOM_COMPONENT_PATH, self._component_name
         )
+        if not self._component_name or component_path == os.path.join(
+            self._config_path, CUSTOM_COMPONENT_PATH
+        ):
+            _LOGGER.warning("Component name was empty while delete was called.")
+            return False
         if os.path.isdir(component_path):
             _LOGGER.debug("Deleting %s", component_path)
             try:
