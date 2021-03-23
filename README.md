@@ -90,7 +90,7 @@ The [logo](images/pr_custom_component.svg) is a combination of the [Home Assista
 [integration_blueprint]: https://github.com/custom-components/integration_blueprint
 [buymecoffee]: https://www.buymeacoffee.com/alandtse
 [buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
-[commits-shield]: https://img.shields.io/github/commit-activity/y/alandtse/pr_custom_component.svg?style=for-the-badge
+[commits-shield]: https://img.shields.io/github/commit-activity/alandtse/pr_custom_component.svg?style=for-the-badge
 [commits]: https://github.com/alandtse/pr_custom_component/commits/main
 [hacs]: https://github.com/custom-components/hacs
 [hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
