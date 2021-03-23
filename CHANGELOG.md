@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.4 (2021-03-23)
+### Fix
+* Fix import error of Typing ([`3e6c49c`](https://github.com/alandtse/pr_custom_component/commit/3e6c49c2c436beb4cec8c2b1bbd808890960ac95))
+
 ## v0.1.3 (2021-03-23)
 ### Fix
 * Add check to avoid deleting custom_components ([`6cc9c62`](https://github.com/alandtse/pr_custom_component/commit/6cc9c62849a280cad07e7984eeacca1eb7200324))

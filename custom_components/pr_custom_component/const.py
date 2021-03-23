@@ -14,7 +14,7 @@ NAME = "pr_custom_component"
 DOMAIN = "pr_custom_component"
 HACS_DOMAIN = "hacs"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.1.3"
+VERSION = "0.1.4"
 ISSUE_URL = "https://github.com/alandtse/pr_custom_component/issues"
 
 # GitHub constants
