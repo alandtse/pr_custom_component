@@ -11,6 +11,7 @@ https://github.com/alandtse/pr_custom_component
 import asyncio
 import base64
 import json
+from json.decoder import JSONDecodeError
 import logging
 import os
 import shutil
@@ -27,10 +28,13 @@ from .const import (
     API_PATH_PREFIX,
     COMPONENT_PATH,
     CUSTOM_COMPONENT_PATH,
+    ENGLISH_JSON,
     EXCEPTION_TEMPLATE,
     PATCH_DOMAIN,
     PATCH_PATH_PREFIX,
     PATCH_PATH_SUFFIX,
+    STRING_FILE,
+    TRANSLATIONS_PATH,
 )
 from .exceptions import RateLimitException
 
@@ -216,6 +220,7 @@ class PRCustomComponentApiClient:
                     os.mkdir(file_path)
                 tasks.append(self.async_download(file_json["url"], path))
             await asyncio.gather(*tasks)
+            await self.async_create_translations()
             return True
         if isinstance(result, dict):
             path.split(os.sep)
@@ -240,6 +245,72 @@ class PRCustomComponentApiClient:
                 return False
             return True
         return False
+
+    async def async_create_translations(self) -> bool:
+        """Create translations directory if needed.
+
+        Returns:
+            bool: Whether translations directory exists
+        """
+        if not self._config_path:
+            _LOGGER.debug("Config path not initialized")
+            return False
+        if not self._component_name:
+            _LOGGER.debug("Component name not initialized")
+            return False
+        component_path: str = os.path.join(
+            self._config_path, CUSTOM_COMPONENT_PATH, self._component_name
+        )
+        translations_path = os.path.join(component_path, TRANSLATIONS_PATH)
+        strings_path = os.path.join(component_path, STRING_FILE)
+        english_path = os.path.join(translations_path, ENGLISH_JSON)
+        _LOGGER.debug("Checking for translations in %s", component_path)
+        if os.path.isdir(translations_path) and os.path.isfile(english_path):
+            _LOGGER.debug("Translations directory and en.json already exists")
+            return True
+        if not os.path.isfile(strings_path):
+            _LOGGER.debug(
+                "%s does not exist, not able to create translations directory",
+                strings_path,
+            )
+            return False
+        else:
+            if not os.path.isdir(translations_path):
+                _LOGGER.debug("Creating translations directory %s", translations_path)
+                try:
+                    os.mkdir(translations_path)
+                except (OSError) as ex:
+                    _LOGGER.debug(
+                        "Error creating directory %s",
+                        translations_path,
+                        EXCEPTION_TEMPLATE.format(type(ex).__name__, ex.args),
+                    )
+                    return False
+            try:
+                async with aiofiles.open(strings_path) as localfile:
+                    contents = await localfile.read()
+                    strings_json: str = json.loads(contents)
+            except (OSError, EOFError, JSONDecodeError, TypeError) as ex:
+                _LOGGER.debug(
+                    "Error reading file %s: %s",
+                    strings_path,
+                    EXCEPTION_TEMPLATE.format(type(ex).__name__, ex.args),
+                )
+                return False
+            if strings_json.get("title") and self._manifest.get("name"):
+                strings_json["title"] = self._manifest["name"]
+            contents = json.dumps(strings_json).encode("utf-8")
+            try:
+                async with aiofiles.open(english_path, mode="wb") as localfile:
+                    await localfile.write(contents)
+            except (OSError) as ex:
+                _LOGGER.debug(
+                    "Error saving file %s: %s",
+                    english_path,
+                    EXCEPTION_TEMPLATE.format(type(ex).__name__, ex.args),
+                )
+                return False
+        return True
 
     async def api_wrapper(
         self,
