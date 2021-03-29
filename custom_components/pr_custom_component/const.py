@@ -27,6 +27,9 @@ API_PATH_PREFIX = "repos"
 # HA Constants
 COMPONENT_PATH = "homeassistant/components/"
 CUSTOM_COMPONENT_PATH = "custom_components/"
+TRANSLATIONS_PATH = "translations/"
+STRING_FILE = "strings.json"
+ENGLISH_JSON = "en.json"
 
 # Icons
 ICON = "mdi:update"

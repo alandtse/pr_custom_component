@@ -10,7 +10,7 @@ https://github.com/alandtse/pr_custom_component
 """
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, NAME, VERSION, DEFAULT_NAME
+from .const import DEFAULT_NAME, DOMAIN, NAME, VERSION
 
 
 class PRCustomComponentApiClientEntity(CoordinatorEntity):
@@ -31,12 +31,17 @@ class PRCustomComponentApiClientEntity(CoordinatorEntity):
     @property
     def device_info(self):
         """Return device_info."""
+        version: str = (
+            f'{self.config_entry.data.get("update_time").replace("-", ".").replace("T", "-T").replace(".0", ".").replace(":", "")}'
+            if self.config_entry.data.get("update_time")
+            else "UNKNOWN"
+        )
         return {
             "identifiers": {(DOMAIN, self.unique_id)},
             "name": f"{self.config_entry.data.get('name', DEFAULT_NAME).capitalize()} PR#{self.config_entry.data.get('pull_number', 'UNKNOWN')}",
-            "model": VERSION,
-            "manufacturer": NAME,
-            "sw_version": f"{self.config_entry.data.get('update_time', DEFAULT_NAME)}",
+            "model": version,
+            "manufacturer": f"{NAME} {VERSION}",
+            "sw_version": version,
         }
 
     @property
