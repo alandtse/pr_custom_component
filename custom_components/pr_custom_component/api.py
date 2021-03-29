@@ -149,7 +149,10 @@ class PRCustomComponentApiClient:
             "name": f"Custom {component_name.capitalize()} PR#{pull_number}",
             "issue_tracker": str(self._pull_url),
             "codeowners": [f"@{user}"],
-            "version": self._updated_at.replace("-", "."),
+            "version": self._updated_at.replace("-", ".")
+            .replace("T", "-T")
+            .replace(".0", ".")
+            .replace(":", ""),
         }
         self._component_name = component_name
         component_path: str = os.path.join(
