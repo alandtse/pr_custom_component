@@ -327,7 +327,7 @@ class PRCustomComponentApiClient:
         headers = self._headers if not headers else headers
         data = data or {}
         try:
-            async with async_timeout.timeout(TIMEOUT, loop=asyncio.get_event_loop()):
+            async with async_timeout.timeout(TIMEOUT):
                 if method == "get":
                     response = await self._session.get(url, headers=headers)
                     response_json = await response.json()
