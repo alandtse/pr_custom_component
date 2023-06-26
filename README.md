@@ -79,11 +79,11 @@ custom_components/pr_custom_component/switch.py
 
 If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)
 
-_Component built with [integration_blueprint][integration_blueprint]._
-
 ## Logo
 
-The [logo](images/pr_custom_component.svg) is a combination of the [Home Assistant logo](https://github.com/home-assistant/assets/blob/master/logo/logo.svg) available under [CC-BY-NC-SA-4.0](https://github.com/home-assistant/assets/blob/master/LICENSE.md) and the [Pull request icon](https://commons.wikimedia.org/wiki/File:Octicons-git-pull-request.svg) under [MIT](https://github.com/primer/octicons/blob/master/LICENSE). The combined logo is under [CC-BY-NC-SA-4.0](https://github.com/home-assistant/assets/blob/master/LICENSE.md)
+The [logo](images/pr_custom_component.svg) is a modified [Pull request icon](https://commons.wikimedia.org/wiki/File:Octicons-git-pull-request.svg) under [MIT](https://github.com/primer/octicons/blob/master/LICENSE).
+
+_Component built with [integration_blueprint][integration_blueprint]._
 
 ---
 
