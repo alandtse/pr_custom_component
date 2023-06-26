@@ -1,6 +1,8 @@
 {
   "name": "PR Custom Component",
   "hacs": "1.6.0",
-  "iot_class": "Cloud Polling",
+  "content_in_root": false,
+  "zip_release": true,
+  "filename": "pr_custom_component.zip",
   "homeassistant": "0.118.0"
 }
