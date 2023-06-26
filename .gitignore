@@ -73,4 +73,4 @@ deps/deps.jl
 
 # Only keep pr_custom_component and not downloaded components
 /custom_components
-!/custom_components/pr_custom_component
+!/custom_components/pr_custom_component/*
