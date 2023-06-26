@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.1 (2023-06-26)
+
+### Fix
+
+* Remove loop parameter from timeout ([`d0d25b3`](https://github.com/alandtse/pr_custom_component/commit/d0d25b3d5de96eecc717467dd8deefaa519eb9d4))
+
+### Documentation
+
+* Switch logo to remove HA house ([`0228592`](https://github.com/alandtse/pr_custom_component/commit/0228592116ff3741c55c42b23ddc2a45b1c468eb))
+
 ## v0.2.0 (2021-03-29)
 ### Feature
 * Autogenerate minimal translations ([`55f56d1`](https://github.com/alandtse/pr_custom_component/commit/55f56d109a88d42790f547118eabe4390ce2e6fb))
