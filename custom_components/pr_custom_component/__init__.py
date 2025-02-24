@@ -12,12 +12,13 @@ import logging
 from typing import List, Text
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import Config, HomeAssistant
+from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import (
     async_get_clientsession,
 )
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.helpers.typing import ConfigType
 import yarl
 
 from .api import PRCustomComponentApiClient
@@ -28,7 +29,7 @@ SCAN_INTERVAL = timedelta(days=1)
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-async def async_setup(hass: HomeAssistant, config: Config):
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up this integration using YAML is not supported."""
     return True
 
@@ -53,13 +54,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
-    for platform in PLATFORMS:
-        if entry.options.get(platform, True):
-            coordinator.platforms.append(platform)
-            hass.async_add_job(
-                hass.config_entries.async_forward_entry_setup(entry, platform)
-            )
-
+    platforms = [platform for platform in PLATFORMS if entry.options.get(platform, True)]
+    coordinator.platforms.append(platforms)
+    await hass.config_entries.async_forward_entry_setups(entry, platforms)
     entry.add_update_listener(async_reload_entry)
     return True
 
