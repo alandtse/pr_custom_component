@@ -34,15 +34,10 @@ ENGLISH_JSON = "en.json"
 # Icons
 ICON = "mdi:update"
 
-# Device classes
-BINARY_SENSOR_DEVICE_CLASS = "power"
-SENSOR_DEVICE_CLASS = "timestamp"
-
 # Platforms
-BINARY_SENSOR = "binary_sensor"
-SENSOR = "sensor"
+UPDATE = "update"
 SWITCH = "switch"
-PLATFORMS = [BINARY_SENSOR, SENSOR, SWITCH]
+PLATFORMS = [UPDATE, SWITCH]
 
 
 # Configuration and options
