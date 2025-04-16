@@ -3,7 +3,7 @@ PRCustomComponent for Home Assistant.
 
 SPDX-License-Identifier: Apache-2.0
 
-Binary Sensor Platform
+Update Platform
 
 For more details about this integration, please refer to
 https://github.com/alandtse/pr_custom_component
