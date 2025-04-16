@@ -9,14 +9,10 @@ For more details about this integration, please refer to
 https://github.com/alandtse/pr_custom_component
 """
 from homeassistant.components.update import (
-    UpdateDeviceClass,
     UpdateEntity,
-    UpdateEntityDescription,
     UpdateEntityFeature,
 )
-from homeassistant.helpers.device_registry import DeviceInfo
 
-# from .const import BINARY_SENSOR_DEVICE_CLASS, DOMAIN
 from .const import DOMAIN
 from .entity import PRCustomComponentApiClientEntity
 
@@ -36,9 +32,7 @@ class PRCustomComponentApiClientUpdate(
         """Initialize the binary_sensor."""
         super().__init__(coordinator, entry)
 
-    _attr_supported_features = (
-        UpdateEntityFeature.INSTALL #| UpdateEntityFeature.PROGRESS
-    )
+    _attr_supported_features = UpdateEntityFeature.INSTALL
 
     @property
     def installed_version(self):
@@ -52,4 +46,4 @@ class PRCustomComponentApiClientUpdate(
 
     async def async_update(self):
         """Update the entity."""
-        return await self.coordinator.api.async_update_data(download=self.coordinator.api.auto_update)
+        return await self.coordinator.api.async_update_data(download=True)
