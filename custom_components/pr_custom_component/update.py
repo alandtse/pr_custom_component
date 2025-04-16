@@ -52,4 +52,4 @@ class PRCustomComponentApiClientUpdate(
 
     async def async_update(self):
         """Update the entity."""
-        return await self.api.async_update_data(download=self.api.auto_update)
+        return await self.coordinator.api.async_update_data(download=self.coordinator.api.auto_update)
