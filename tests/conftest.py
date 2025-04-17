@@ -15,10 +15,23 @@
 # See here for more info: https://docs.pytest.org/en/latest/fixture.html (note that
 # pytest includes fixtures OOB which you can use as defined on this page)
 from unittest.mock import patch
-
 import pytest
+import os
+from pathlib import Path
+
+from .const import MOCK_CONFIG_DATA
+from pytest_homeassistant_custom_component.common import MockConfigEntry
+from custom_components.pr_custom_component import async_setup_entry
+from custom_components.pr_custom_component.const import DOMAIN
+from custom_components.pr_custom_component.update import PRCustomComponentApiClientUpdate
 
 pytest_plugins = "pytest_homeassistant_custom_component"
+
+
+@pytest.fixture(autouse=True)
+def auto_enable_custom_integrations(enable_custom_integrations):
+    """Enable custom integrations."""
+    return
 
 
 # This fixture is used to prevent HomeAssistant from attempting to create and dismiss persistent
@@ -31,6 +44,34 @@ def skip_notifications_fixture():
         "homeassistant.components.persistent_notification.async_dismiss"
     ):
         yield
+
+
+# This fixture creates a mock config entry that can be used across all tests.
+# It provides a consistent configuration for testing the integration.
+@pytest.fixture(name="mock_config_entry")
+async def mock_config_entry_fixture(hass):
+    """Create a mock config entry."""
+
+    return MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG_DATA, entry_id="test")
+
+
+# This fixture sets up the update entity and its coordinator for testing.
+# It handles the initialization of the integration and provides both the entity
+# and coordinator objects that are needed for testing update functionality.
+@pytest.fixture(name="setup_update_entity")
+async def setup_update_entity_fixture(hass, mock_config_entry):
+    """Set up the update entity and return it along with its coordinator."""
+    # Add the config entry to Home Assistant
+    mock_config_entry.add_to_hass(hass)
+    
+    # Set up the config entry
+    assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    coordinator = hass.data[DOMAIN][mock_config_entry.entry_id]
+    update_entity = PRCustomComponentApiClientUpdate(coordinator, mock_config_entry)
+    
+    return update_entity, coordinator
 
 
 # This fixture, when used, will result in calls to async_update_data to return None. To have the call
