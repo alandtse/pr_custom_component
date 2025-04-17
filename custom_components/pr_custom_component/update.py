@@ -18,7 +18,7 @@ from .entity import PRCustomComponentApiClientEntity
 
 
 async def async_setup_entry(hass, entry, async_add_devices):
-    """Setup binary_sensor platform."""
+    """Setup update platform."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
     async_add_devices([PRCustomComponentApiClientUpdate(coordinator, entry)])
 
@@ -26,10 +26,10 @@ async def async_setup_entry(hass, entry, async_add_devices):
 class PRCustomComponentApiClientUpdate(
     PRCustomComponentApiClientEntity, UpdateEntity
 ):
-    """PRCustomComponent binary_sensor class."""
+    """PRCustomComponent update class."""
 
     def __init__(self, coordinator, entry):
-        """Initialize the binary_sensor."""
+        """Initialize the update entity."""
         super().__init__(coordinator, entry)
 
     _attr_supported_features = UpdateEntityFeature.INSTALL

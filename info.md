@@ -20,8 +20,7 @@ Create a custom component from a Home Assistant Integration Pull Request. Use th
 
 | Platform        | Description                                                     |
 | --------------- | --------------------------------------------------------------- |
-| `binary_sensor` | Show whether the Pull Request has been updated since install.   |
-| `sensor`        | Show's the timestamp of the last change to the Pull Request     |
+| `update`        | Enables Updates if the Pull request has changed                 |
 | `switch`        | Enable to automatically update to the latest on the next check. |
 
 {% if not installed %}

@@ -20,8 +20,7 @@ Create a custom component from a Home Assistant Integration Pull Request. Use th
 
 | Platform        | Description                                                     |
 | --------------- | --------------------------------------------------------------- |
-| `binary_sensor` | Show whether the Pull Request has been updated since install.   |
-| `sensor`        | Show's the timestamp of the last change to the Pull Request     |
+| `update`        | Enables Updates if the Pull request has changed                 |
 | `switch`        | Enable to automatically update to the latest on the next check. |
 
 ## Installation
@@ -41,11 +40,10 @@ Using your HA configuration directory (folder) as a starting point you should no
 custom_components/pr_custom_component/translations/en.json
 custom_components/pr_custom_component/__init__.py
 custom_components/pr_custom_component/api.py
-custom_components/pr_custom_component/binary_sensor.py
 custom_components/pr_custom_component/config_flow.py
 custom_components/pr_custom_component/const.py
 custom_components/pr_custom_component/manifest.json
-custom_components/pr_custom_component/sensor.py
+custom_components/pr_custom_component/update.py
 custom_components/pr_custom_component/switch.py
 ```
 
