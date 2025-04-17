@@ -8,6 +8,7 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from custom_components.pr_custom_component.const import (
     DOMAIN,
     PLATFORMS,
+    SENSOR,
     SWITCH,
 )
 
@@ -94,9 +95,15 @@ async def test_options_flow(hass):
     assert result["type"] == data_entry_flow.RESULT_TYPE_FORM
     assert result["step_id"] == "user"
 
+    # Enter some fake data into the form
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"],
+        user_input={platform: platform != SENSOR for platform in PLATFORMS},
+    )
+
     # Verify that the flow finishes
     assert result["type"] == data_entry_flow.RESULT_TYPE_CREATE_ENTRY
     assert result["title"] == "test_username"
 
     # Verify that the options were updated
-    assert entry.options == {SWITCH: True}
+    assert entry.options == {SENSOR: False, SWITCH: True}

@@ -20,6 +20,7 @@
     "step": {
       "user": {
         "data": {
+          "sensor": "Sensor enabled",
           "switch": "Switch enabled"
         }
       }

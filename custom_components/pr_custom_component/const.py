@@ -34,10 +34,14 @@ ENGLISH_JSON = "en.json"
 # Icons
 ICON = "mdi:update"
 
+# Device classes
+SENSOR_DEVICE_CLASS = "timestamp"
+
 # Platforms
 UPDATE = "update"
+SENSOR = "sensor"
 SWITCH = "switch"
-PLATFORMS = [UPDATE, SWITCH]
+PLATFORMS = [UPDATE, SENSOR, SWITCH]
 
 
 # Configuration and options

@@ -21,6 +21,7 @@ Create a custom component from a Home Assistant Integration Pull Request. Use th
 | Platform        | Description                                                     |
 | --------------- | --------------------------------------------------------------- |
 | `update`        | Enables Updates if the Pull request has changed                 |
+| `sensor`        | Show's the timestamp of the last change to the Pull Request     |
 | `switch`        | Enable to automatically update to the latest on the next check. |
 
 {% if not installed %}

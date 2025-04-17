@@ -21,6 +21,7 @@ Create a custom component from a Home Assistant Integration Pull Request. Use th
 | Platform        | Description                                                     |
 | --------------- | --------------------------------------------------------------- |
 | `update`        | Enables Updates if the Pull request has changed                 |
+| `sensor`        | Show's the timestamp of the last change to the Pull Request     |
 | `switch`        | Enable to automatically update to the latest on the next check. |
 
 ## Installation
@@ -43,6 +44,7 @@ custom_components/pr_custom_component/api.py
 custom_components/pr_custom_component/config_flow.py
 custom_components/pr_custom_component/const.py
 custom_components/pr_custom_component/manifest.json
+custom_components/pr_custom_component/sensor.py
 custom_components/pr_custom_component/update.py
 custom_components/pr_custom_component/switch.py
 ```
