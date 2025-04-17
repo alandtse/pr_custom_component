@@ -4,7 +4,7 @@ version = "0.2.2"
 description = "A home assistant integration to install a HA pull request as a custom component."
 authors = ["Alan D. Tse <alandtse@gmail.com>"]
 license = "Apache-2.0"
-package-mode = false 
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -61,3 +61,6 @@ exclude = '''
 )
 | custom_components\/(?!pr_custom_component).*
 '''
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
