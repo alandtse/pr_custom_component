@@ -15,11 +15,12 @@
 # See here for more info: https://docs.pytest.org/en/latest/fixture.html (note that
 # pytest includes fixtures OOB which you can use as defined on this page)
 from unittest.mock import patch
+from annotated_types import T
 import pytest
 import os
 from pathlib import Path
 
-from .const import MOCK_CONFIG_DATA
+from .const import MOCK_CONFIG_DATA, TEST_ENTITY_ID
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from custom_components.pr_custom_component import async_setup_entry
 from custom_components.pr_custom_component.const import DOMAIN
@@ -52,7 +53,7 @@ def skip_notifications_fixture():
 async def mock_config_entry_fixture(hass):
     """Create a mock config entry."""
 
-    return MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG_DATA, entry_id="test")
+    return MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG_DATA, entry_id=TEST_ENTITY_ID)
 
 
 # This fixture sets up the update entity and its coordinator for testing.
@@ -63,14 +64,14 @@ async def setup_update_entity_fixture(hass, mock_config_entry):
     """Set up the update entity and return it along with its coordinator."""
     # Add the config entry to Home Assistant
     mock_config_entry.add_to_hass(hass)
-    
+
     # Set up the config entry
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
 
     coordinator = hass.data[DOMAIN][mock_config_entry.entry_id]
     update_entity = PRCustomComponentApiClientUpdate(coordinator, mock_config_entry)
-    
+
     return update_entity, coordinator
 
 
