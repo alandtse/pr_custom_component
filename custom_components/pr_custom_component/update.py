@@ -8,6 +8,8 @@ Update Platform
 For more details about this integration, please refer to
 https://github.com/alandtse/pr_custom_component
 """
+from typing import Any
+
 from homeassistant.components.update import (
     UpdateEntity,
     UpdateEntityFeature,
@@ -44,6 +46,8 @@ class PRCustomComponentApiClientUpdate(
         """Return the latest version."""
         return self.coordinator.api.latest_version
 
-    async def async_update(self):
-        """Update the entity."""
-        return await self.coordinator.api.async_update_data(download=True)
+    async def async_install(
+        self, version: str | None, backup: bool, **kwargs: Any
+    ) -> None:
+        """Install an update."""
+        return await self.coordinator.api.async_update_data(download=True, version=version, backup=backup, **kwargs)
