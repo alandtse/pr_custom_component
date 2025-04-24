@@ -61,7 +61,10 @@ custom_components/pr_custom_component/switch.py
 
 ## Upgrading an Auto Generated Custom Component
 
-1. In the HA UI go to "Configuration" -> "Integrations", select the PR Custom Component with title `Tesla` Component's `...` menu and reload. This will automatically download the latest files from the Pull Request
+1. When an update is available, it will appear at the top of the [Settings tab in Home Assistant](https://my.home-assistant.io/redirect/config/). Click the update notification, then click Update to automatically download the latest files from the Pull Request.
+
+   > You can choose to skip the update, but keep in mind that the component will still be updated automatically when the integration is reloaded or Home Assistant is restarted.
+
 2. Restart Home Assistant.
 
 ## Uninstalling an Auto Generated Custom Component
