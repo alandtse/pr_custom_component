@@ -1,11 +1,13 @@
 """Test PRCustomComponent update."""
-from homeassistant.const import ATTR_ENTITY_ID
+
+from unittest.mock import patch
+
 from homeassistant.components.update import (
     DOMAIN as UPDATE_DOMAIN,
     SERVICE_INSTALL,
-    UpdateEntityFeature
+    UpdateEntityFeature,
 )
-from unittest.mock import patch
+from homeassistant.const import ATTR_ENTITY_ID
 
 from .const import MOCK_PR_RESPONSE, TEST_ENTITY_ID
 
@@ -28,8 +30,9 @@ def test_version_property_changes(setup_update_entity):
     update_entity, coordinator = setup_update_entity
 
     # Test property changes
-    with patch.object(coordinator.api, '_installed_version', new="1.0.0"), \
-         patch.object(coordinator.api, '_latest_version', new="1.1.0"):
+    with patch.object(coordinator.api, "_installed_version", new="1.0.0"), patch.object(
+        coordinator.api, "_latest_version", new="1.1.0"
+    ):
         # Verify that the update entity properties reflect the API client changes
         assert update_entity.installed_version == "1.0.0"
         assert update_entity.latest_version == "1.1.0"
@@ -40,7 +43,7 @@ async def test_async_install_method(setup_update_entity):
     update_entity, coordinator = setup_update_entity
 
     # Test async_update method
-    with patch.object(coordinator.api, 'async_update_data') as mock_update:
+    with patch.object(coordinator.api, "async_update_data") as mock_update:
         mock_update.return_value = MOCK_PR_RESPONSE
         result = await update_entity.async_install(
             version=None,
@@ -50,13 +53,14 @@ async def test_async_install_method(setup_update_entity):
         assert mock_update.called
         assert mock_update.call_args[1]["download"] is True
 
+
 async def test_async_install_service(hass, setup_update_entity):
     """Test async_install service."""
     update_entity, coordinator = setup_update_entity
 
-    with patch.object(coordinator.api, '_installed_version', "2.0.0"), \
-        patch.object(coordinator.api, '_latest_version', "2.1.0"), \
-        patch.object(coordinator.api, 'async_update_data') as mock_update:
+    with patch.object(coordinator.api, "_installed_version", "2.0.0"), patch.object(
+        coordinator.api, "_latest_version", "2.1.0"
+    ), patch.object(coordinator.api, "async_update_data") as mock_update:
 
         # Test async_install method
         await hass.services.async_call(
