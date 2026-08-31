@@ -6,6 +6,7 @@ SPDX-License-Identifier: Apache-2.0
 For more details about this integration, please refer to
 https://github.com/alandtse/pr_custom_component
 """
+
 import asyncio
 from datetime import timedelta
 import logging
@@ -14,11 +15,9 @@ from typing import List, Text
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
-from homeassistant.helpers.aiohttp_client import (
-    async_get_clientsession,
-)
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.typing import ConfigType
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 import yarl
 
 from .api import PRCustomComponentApiClient
@@ -54,7 +53,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
-    platforms = [platform for platform in PLATFORMS if entry.options.get(platform, True)]
+    platforms = [
+        platform for platform in PLATFORMS if entry.options.get(platform, True)
+    ]
     coordinator.platforms.append(platforms)
     await hass.config_entries.async_forward_entry_setups(entry, platforms)
     entry.add_update_listener(async_reload_entry)
@@ -67,7 +68,7 @@ class PRCustomComponentDataUpdateCoordinator(DataUpdateCoordinator):
     def __init__(self, hass: HomeAssistant, client: PRCustomComponentApiClient) -> None:
         """Initialize."""
         self.api = client
-        self.platforms: List[Text] = []
+        self.platforms: List[str] = []
         self.hass = hass
 
         super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=SCAN_INTERVAL)
@@ -106,13 +107,13 @@ async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
     await async_setup_entry(hass, entry)
 
 
-def get_hacs_token(hass: HomeAssistant) -> Text:
+def get_hacs_token(hass: HomeAssistant) -> str:
     """Search for hacs token."""
     if not hass:
         _LOGGER.debug("No hass provided.")
         return ""
-    hacs_token: Text = ""
-    old_hacs_token: Text = hacs_token
+    hacs_token: str = ""
+    old_hacs_token: str = hacs_token
     if hass.config_entries.async_entries(HACS_DOMAIN):
         for hacs_entry in hass.config_entries.async_entries(HACS_DOMAIN):
             hacs_token = hacs_entry.data.get("token", "")
