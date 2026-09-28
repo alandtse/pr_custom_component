@@ -8,6 +8,7 @@ Switch Platform
 For more details about this integration, please refer to
 https://github.com/alandtse/pr_custom_component
 """
+
 from homeassistant.components.switch import SwitchEntity
 
 from .const import DOMAIN, ICON
