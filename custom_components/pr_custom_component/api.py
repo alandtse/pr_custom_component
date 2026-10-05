@@ -8,6 +8,7 @@ GitHub API
 For more details about this integration, please refer to
 https://github.com/alandtse/pr_custom_component
 """
+
 import asyncio
 import base64
 import json
@@ -296,7 +297,7 @@ class PRCustomComponentApiClient:
                 _LOGGER.debug("Creating translations directory %s", translations_path)
                 try:
                     os.mkdir(translations_path)
-                except (OSError) as ex:
+                except OSError as ex:
                     _LOGGER.debug(
                         "Error creating directory %s",
                         translations_path,
@@ -320,7 +321,7 @@ class PRCustomComponentApiClient:
             try:
                 async with aiofiles.open(english_path, mode="wb") as localfile:
                     await localfile.write(contents)
-            except (OSError) as ex:
+            except OSError as ex:
                 _LOGGER.debug(
                     "Error saving file %s: %s",
                     english_path,
