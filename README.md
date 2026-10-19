@@ -18,11 +18,11 @@ Create a custom component from a Home Assistant Integration Pull Request. Use th
 
 **Warning: This is experimental and may fail if the Pull Request is for a substantially different version of HA or modifies more than the integration. Do not report bugs to the core authors!**
 
-| Platform        | Description                                                     |
-| --------------- | --------------------------------------------------------------- |
-| `update`        | Enables Updates if the Pull request has changed                 |
-| `sensor`        | Show's the timestamp of the last change to the Pull Request     |
-| `switch`        | Enable to automatically update to the latest on the next check. |
+| Platform | Description                                                     |
+| -------- | --------------------------------------------------------------- |
+| `update` | Enables Updates if the Pull request has changed                 |
+| `sensor` | Show's the timestamp of the last change to the Pull Request     |
+| `switch` | Enable to automatically update to the latest on the next check. |
 
 ## Installation
 
