@@ -8,6 +8,7 @@ Base entity to inherit
 For more details about this integration, please refer to
 https://github.com/alandtse/pr_custom_component
 """
+
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DEFAULT_NAME, DOMAIN, NAME, VERSION
