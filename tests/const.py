@@ -1,4 +1,5 @@
 """Constants for PRCustomComponent tests."""
+
 from custom_components.pr_custom_component.const import CONF_PR_URL
 
 # Mock config data to be used across multiple tests

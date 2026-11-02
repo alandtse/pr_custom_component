@@ -1,6 +1,5 @@
 # CHANGELOG
 
-
 ## v0.2.2 (2025-02-24)
 
 ### Bug Fixes
@@ -17,7 +16,6 @@ Co-authored-by: Alan Tse <alandtse@users.noreply.github.com>
 
 - Update actions to 4
   ([`432659e`](https://github.com/alandtse/pr_custom_component/commit/432659e75df81d052c1d36acd0e7fbc88dcd9718))
-
 
 ## v0.2.1 (2023-06-26)
 
@@ -67,7 +65,6 @@ closes #13 Co-authored-by: Andrew Blackburn <andyblac@icloud.com>
 - Switch logo to remove HA house
   ([`0228592`](https://github.com/alandtse/pr_custom_component/commit/0228592116ff3741c55c42b23ddc2a45b1c468eb))
 
-
 ## v0.2.0 (2021-03-29)
 
 ### Bug Fixes
@@ -90,7 +87,6 @@ Signed-off-by: Alan Tse <alandtse@gmail.com>
 
 Signed-off-by: Alan Tse <alandtse@gmail.com>
 
-
 ## v0.1.4 (2021-03-23)
 
 ### Features
@@ -98,14 +94,12 @@ Signed-off-by: Alan Tse <alandtse@gmail.com>
 - Autogenerate minimal translations
   ([`55f56d1`](https://github.com/alandtse/pr_custom_component/commit/55f56d109a88d42790f547118eabe4390ce2e6fb))
 
-
 ## v0.1.3 (2021-03-23)
 
 ### Bug Fixes
 
 - Fix import error of Typing
   ([`3e6c49c`](https://github.com/alandtse/pr_custom_component/commit/3e6c49c2c436beb4cec8c2b1bbd808890960ac95))
-
 
 ## v0.1.2 (2021-03-23)
 
@@ -140,7 +134,6 @@ Signed-off-by: Alan Tse <alandtse@gmail.com>
 
 - Resize images
   ([`8088b3d`](https://github.com/alandtse/pr_custom_component/commit/8088b3d13e76f659a569c3aab2699f96d4733949))
-
 
 ## v0.1.1 (2021-03-21)
 
@@ -177,7 +170,6 @@ Signed-off-by: Alan Tse <alandtse@gmail.com>
 
 - Add logo
   ([`9015830`](https://github.com/alandtse/pr_custom_component/commit/90158300803a25989dab8953bd9eb77a982a2792))
-
 
 ## v0.1.0 (2021-03-20)
 

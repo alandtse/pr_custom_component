@@ -1,4 +1,5 @@
 """Global fixtures for PRCustomComponent integration."""
+
 # Fixtures allow you to replace functions with a Mock object. You can perform
 # many options via the Mock to reflect a particular behavior from the original
 # function that you want to see without going through the function's actual logic.
@@ -14,16 +15,20 @@
 #
 # See here for more info: https://docs.pytest.org/en/latest/fixture.html (note that
 # pytest includes fixtures OOB which you can use as defined on this page)
-from unittest.mock import patch
-import pytest
 import os
 from pathlib import Path
+from unittest.mock import patch
 
-from .const import MOCK_CONFIG_DATA, TEST_ENTITY_ID
+import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
+
 from custom_components.pr_custom_component import async_setup_entry
 from custom_components.pr_custom_component.const import DOMAIN
-from custom_components.pr_custom_component.update import PRCustomComponentApiClientUpdate
+from custom_components.pr_custom_component.update import (
+    PRCustomComponentApiClientUpdate,
+)
+
+from .const import MOCK_CONFIG_DATA, TEST_ENTITY_ID
 
 pytest_plugins = "pytest_homeassistant_custom_component"
 
@@ -52,7 +57,9 @@ def skip_notifications_fixture():
 async def mock_config_entry_fixture(hass):
     """Create a mock config entry."""
 
-    return MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG_DATA, entry_id=TEST_ENTITY_ID)
+    return MockConfigEntry(
+        domain=DOMAIN, data=MOCK_CONFIG_DATA, entry_id=TEST_ENTITY_ID
+    )
 
 
 # This fixture sets up the update entity and its coordinator for testing.
