@@ -120,6 +120,11 @@ class PRCustomComponentApiClient:
         """Return the whether an to autoupdate when available."""
         return self._auto_update
 
+    @auto_update.setter
+    def auto_update(self, value: bool) -> None:
+        """Set whether to autoupdate when available."""
+        self._auto_update = value
+
     def set_token(self, token: str = "") -> None:
         """Set auth token for GitHub to avoid rate limits.
 

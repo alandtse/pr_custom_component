@@ -8,26 +8,29 @@ import yarl
 
 from custom_components.pr_custom_component import PRCustomComponentApiClient
 
-from .const import (  # TEST_API_DATA_URL,
+from .const import (
+    MOCK_DATA_RESPONSE,
     MOCK_INIT_RESPONSE,
     MOCK_PR_RESPONSE,
     MOCK_TRANSLATIONS_RESPONSE,
+    TEST_API_DATA_URL,
     TEST_API_PR_URL,
-    TEST_CONFIG_PATH,
     TEST_INIT_URL,
     TEST_PR_URL,
     TEST_TRANSLATIONS_URL,
 )
 
 
-async def test_api(hass, aioclient_mock, caplog):
+async def test_api(hass, aioclient_mock, caplog, tmp_path):
     """Test API calls."""
+    # Home Assistant always has a custom_components directory in its config dir
+    (tmp_path / "custom_components").mkdir()
 
     # To test the api submodule, we first create an instance of our API client
     api = PRCustomComponentApiClient(
         async_get_clientsession(hass),
         yarl.URL(TEST_PR_URL),
-        TEST_CONFIG_PATH,
+        str(tmp_path),
     )
 
     # Use aioclient_mock which is provided by `pytest_homeassistant_custom_components`
@@ -35,6 +38,7 @@ async def test_api(hass, aioclient_mock, caplog):
     # return {"test": "test"} when a `GET` call is made to the specified URL. We then
     # call `async_update_data` which will make that `GET` request.
     aioclient_mock.get(TEST_API_PR_URL, json=MOCK_PR_RESPONSE)
+    aioclient_mock.get(TEST_API_DATA_URL, json=MOCK_DATA_RESPONSE)
     aioclient_mock.get(TEST_INIT_URL, json=MOCK_INIT_RESPONSE)
     aioclient_mock.get(TEST_TRANSLATIONS_URL, json=MOCK_TRANSLATIONS_RESPONSE)
 
@@ -50,31 +54,34 @@ async def test_api(hass, aioclient_mock, caplog):
     # exception handling is a logging statement
     caplog.clear()
     aioclient_mock.put(TEST_API_PR_URL, exc=asyncio.TimeoutError)
-    assert await api.api_wrapper("put", TEST_API_PR_URL) is None
+    assert await api.api_wrapper("put", TEST_API_PR_URL) == {}
     assert (
         len(caplog.record_tuples) == 1
         and "Timeout error fetching information from" in caplog.record_tuples[0][2]
     )
 
     caplog.clear()
+    aioclient_mock.clear_requests()
     aioclient_mock.post(TEST_API_PR_URL, exc=aiohttp.ClientError)
-    assert await api.api_wrapper("post", TEST_API_PR_URL) is None
+    assert await api.api_wrapper("post", TEST_API_PR_URL) == {}
     assert (
         len(caplog.record_tuples) == 1
         and "Error fetching information from" in caplog.record_tuples[0][2]
     )
 
     caplog.clear()
+    aioclient_mock.clear_requests()
     aioclient_mock.post(TEST_API_PR_URL, exc=Exception)
-    assert await api.api_wrapper("post", TEST_API_PR_URL) is None
+    assert await api.api_wrapper("post", TEST_API_PR_URL) == {}
     assert (
         len(caplog.record_tuples) == 1
         and "Something really wrong happened!" in caplog.record_tuples[0][2]
     )
 
     caplog.clear()
+    aioclient_mock.clear_requests()
     aioclient_mock.post(TEST_API_PR_URL, exc=TypeError)
-    assert await api.api_wrapper("post", TEST_API_PR_URL) is None
+    assert await api.api_wrapper("post", TEST_API_PR_URL) == {}
     assert (
         len(caplog.record_tuples) == 1
         and "Error parsing information from" in caplog.record_tuples[0][2]
