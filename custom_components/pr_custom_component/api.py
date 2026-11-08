@@ -70,6 +70,8 @@ class PRCustomComponentApiClient:
         self._manifest: Dict[str, Union[str, List[str]]] = {}
         self._component_name: str = ""
         self._updated_at: str = ""
+        self._latest_version: str = ""
+        self._installed_version: str = ""
         self._base_path: str = ""
         self._update_available: str = ""
         self._token: str = ""
@@ -101,6 +103,16 @@ class PRCustomComponentApiClient:
     def update_available(self) -> str:
         """Return the whether an update is available."""
         return self._update_available
+
+    @property
+    def installed_version(self) -> str:
+        """Return the installed version."""
+        return self._installed_version
+
+    @property
+    def latest_version(self) -> str:
+        """Return the latest version."""
+        return self._latest_version
 
     @property
     def auto_update(self) -> bool:
@@ -144,6 +156,8 @@ class PRCustomComponentApiClient:
         self._base_path = path
         self._pull_number = pull_number
         self._update_available = self._updated_at != pull_json["updated_at"]
+        self._installed_version = self._latest_version or pull_json["head"]["sha"]
+        self._latest_version = pull_json["head"]["sha"]
         self._updated_at = pull_json["updated_at"]
         self._manifest = {
             "name": f"Custom {component_name.capitalize()} PR#{pull_number}",

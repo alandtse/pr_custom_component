@@ -15,6 +15,7 @@ MOCK_CONFIG_DATA = {
     "pull_number": 46558,
 }
 TEST_CONFIG_PATH = "/config"
+TEST_ENTITY_ID = "tesla_pr_46558"
 
 MOCK_PR_RESPONSE = {
     "url": "https://api.github.com/repos/home-assistant/core/pulls/46558",
