@@ -28,10 +28,12 @@ class PRCustomComponentApiClientBinarySwitch(
     async def async_turn_on(self, **kwargs):  # pylint: disable=unused-argument
         """Turn on the switch."""
         self.coordinator.api.auto_update = True
+        self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs):  # pylint: disable=unused-argument
         """Turn off the switch."""
         self.coordinator.api.auto_update = False
+        self.async_write_ha_state()
 
     @property
     def name(self):

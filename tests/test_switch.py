@@ -1,48 +1,41 @@
 """Test PRCustomComponent switch."""
-from unittest.mock import call, patch
-
-from homeassistant.components.switch import SERVICE_TURN_OFF, SERVICE_TURN_ON
-from homeassistant.const import ATTR_ENTITY_ID
-from pytest_homeassistant_custom_component.common import MockConfigEntry
-
-from custom_components.pr_custom_component import async_setup_entry
-from custom_components.pr_custom_component.const import (
-    DEFAULT_NAME,
-    DOMAIN,
-    SWITCH,
+from homeassistant.components.switch import (
+    DOMAIN as SWITCH_DOMAIN,
+    SERVICE_TURN_OFF,
+    SERVICE_TURN_ON,
 )
+from homeassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
 
-from .const import MOCK_CONFIG
+from custom_components.pr_custom_component.const import DOMAIN
+
+SWITCH_ENTITY_ID = f"{SWITCH_DOMAIN}.tesla_pr_46558_auto_update"
 
 
-async def test_switch_services(hass):
-    """Test switch services."""
-    # Create a mock entry so we don't have to go through config flow
-    config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG, entry_id="test")
-    assert await async_setup_entry(hass, config_entry)
+async def test_switch_services(hass, bypass_get_data, mock_config_entry):
+    """Test the auto update switch toggles the API client's auto_update flag."""
+    mock_config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
 
-    # Functions/objects can be patched directly in test code as well and can be used to test
-    # additional things, like whether a function was called or what arguments it was called with
-    with patch(
-        "custom_components.pr_custom_component.PRCustomComponentApiClient.auto_update"
-    ) as title_func:
-        await hass.services.async_call(
-            SWITCH,
-            SERVICE_TURN_OFF,
-            service_data={ATTR_ENTITY_ID: "Custom Tesla auto update"},
-            blocking=True,
-        )
-        assert title_func.called
-        assert title_func.call_args == call("foo")
+    coordinator = hass.data[DOMAIN][mock_config_entry.entry_id]
 
-        title_func.reset_mock()
+    await hass.services.async_call(
+        SWITCH_DOMAIN,
+        SERVICE_TURN_OFF,
+        service_data={ATTR_ENTITY_ID: SWITCH_ENTITY_ID},
+        blocking=True,
+    )
+    assert coordinator.api.auto_update is False
+    assert hass.states.get(SWITCH_ENTITY_ID).state == STATE_OFF
 
-        await hass.services.async_call(
-            SWITCH,
-            SERVICE_TURN_ON,
-            service_data={ATTR_ENTITY_ID: f"{SWITCH}.{DEFAULT_NAME}_{SWITCH}"},
-            blocking=True,
-        )
-        assert title_func.called
-        assert title_func.call_args == call("bar")
+    await hass.services.async_call(
+        SWITCH_DOMAIN,
+        SERVICE_TURN_ON,
+        service_data={ATTR_ENTITY_ID: SWITCH_ENTITY_ID},
+        blocking=True,
+    )
+    assert coordinator.api.auto_update is True
+    assert hass.states.get(SWITCH_ENTITY_ID).state == STATE_ON
+
+    assert await hass.config_entries.async_unload(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
