@@ -8,6 +8,7 @@ Config Flow Platform
 For more details about this integration, please refer to
 https://github.com/alandtse/pr_custom_component
 """
+
 import logging
 from typing import Dict
 

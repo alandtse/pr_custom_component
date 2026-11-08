@@ -1,4 +1,5 @@
 """Test PRCustomComponent setup process."""
+
 from homeassistant.exceptions import ConfigEntryNotReady
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
@@ -11,7 +12,7 @@ from custom_components.pr_custom_component import (
 )
 from custom_components.pr_custom_component.const import DOMAIN
 
-from .const import MOCK_CONFIG, MOCK_CONFIG_DATA
+from .const import MOCK_CONFIG_DATA
 
 
 # We can pass fixtures as defined in conftest.py to tell pytest to use the fixture
@@ -31,17 +32,17 @@ async def test_setup_unload_and_reload_entry(hass, bypass_get_data):
     # call, no code from custom_components/PRCustomComponent/api.py actually runs.
     assert await async_setup_entry(hass, config_entry)
     assert DOMAIN in hass.data and config_entry.entry_id in hass.data[DOMAIN]
-    assert (
-        type(hass.data[DOMAIN][config_entry.entry_id])
-        == PRCustomComponentDataUpdateCoordinator
+    assert isinstance(
+        hass.data[DOMAIN][config_entry.entry_id],
+        PRCustomComponentDataUpdateCoordinator,
     )
 
     # Reload the entry and assert that the data from above is still there
     assert await async_reload_entry(hass, config_entry) is None
     assert DOMAIN in hass.data and config_entry.entry_id in hass.data[DOMAIN]
-    assert (
-        type(hass.data[DOMAIN][config_entry.entry_id])
-        == PRCustomComponentDataUpdateCoordinator
+    assert isinstance(
+        hass.data[DOMAIN][config_entry.entry_id],
+        PRCustomComponentDataUpdateCoordinator,
     )
 
     # Unload the entry and verify that the data has been removed

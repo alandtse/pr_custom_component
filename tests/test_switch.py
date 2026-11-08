@@ -1,4 +1,5 @@
 """Test PRCustomComponent switch."""
+
 from homeassistant.components.switch import (
     DOMAIN as SWITCH_DOMAIN,
     SERVICE_TURN_OFF,
