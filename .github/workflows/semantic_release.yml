@@ -1,7 +1,4 @@
 name: semantic_release
-
-# Standalone release workflow (not gated on the CI workflows), mirroring
-# alandtse/alexa_media_player and alandtse/auth_capture_proxy.
 on:
   push:
     branches:
